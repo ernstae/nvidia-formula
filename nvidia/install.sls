@@ -11,8 +11,8 @@ nvidia-repo:
   {% if salt['grains.get']('os_family', 'RedHat') == 'RedHat' %}
     - gpgkey: {{ nvidia.base_url }}/GPGKEY
     - baseurl: {{ nvidia.base_url }}/rhel$releasever/$basearch
-  {% elif salt['grains.get']('os_family') == 'Debian' or 'Ubuntu' %}
-    - file: /etc/apt/sources.list.d/nvidia.list
+  {% elif salt['grains.get']('os_family') == 'Debian' %}
+    - file: /etc/apt/sources.list.d/nvi- dia.list
     - key_url: {{ nvidia.base_url }}/GPGKEY
     - name: deb {{ nvidia.base_url }}/ubuntu{{ salt['grains.get']('osrelease', '1404') | replace('.','') }}/{{ salt['grains.get']('osarch','x86_64') | replace('amd64','x86_64') }}
   {% endif %}
@@ -24,6 +24,9 @@ install_cuda_package:
   {%- if nvidia.version is defined %}
     - version: {{ nvidia.version }}
   {% endif %}
+  {%- if nvidia.version_hold is defined AND nvidia.version_hold %}
+    - hold: {{ nvidia.version_hold }}
+  {%- endif %}
 
 {## Disable Nouveau ##}
 /etc/modprobe.d/blacklist-nouveau.conf:
