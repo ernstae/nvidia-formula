@@ -2,3 +2,4 @@
 # vim: ft=yaml
 nvidia:
   base_url: http://developer.download.nvidia.com/compute/cuda/repos
+  version: 9.1
